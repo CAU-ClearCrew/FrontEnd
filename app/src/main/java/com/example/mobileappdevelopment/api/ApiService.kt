@@ -2,6 +2,7 @@ package com.example.mobileappdevelopment.api
 
 import com.example.mobileappdevelopment.data.Employee
 import com.example.mobileappdevelopment.data.Report
+import com.example.mobileappdevelopment.data.ReportRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -83,6 +84,9 @@ interface ApiService {
 
     @GET("api/merkle/tree-info")
     suspend fun getMerkleTreeInfo(): Response<CircuitInputsResponse>
+
+    @POST("api/report")
+    suspend fun submitReportToBackend(@Body request: ReportRequest): Response<Void>
 }
 
 // Request/Response 모델들

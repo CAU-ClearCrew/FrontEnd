@@ -34,8 +34,17 @@ import java.math.BigInteger
 import java.security.KeyFactory
 import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher
+import com.example.mobileappdevelopment.data.ReportRequest
+import androidx.lifecycle.viewModelScope
+import com.example.mobileappdevelopment.data.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-class ReportViewModel(application: Application) : AndroidViewModel(application) {
+/*class ReportViewModel(application: Application) : AndroidViewModel(application) {
     private val _reports = MutableStateFlow<List<Report>>(emptyList())
     val reports: StateFlow<List<Report>> = _reports.asStateFlow()
 
@@ -227,6 +236,26 @@ class ReportViewModel(application: Application) : AndroidViewModel(application) 
                     loadReports()
                 }
 
+                // 9. Submit to Backend DB
+
+                val backendRequest = ReportRequest(
+                    encryptedContent = Base64.encodeToString(encryptedData, Base64.NO_WRAP), // 암호화된 내용을 문자열로 변환
+                    zkProof = proofString,
+                    nullifierHash = nullifierHash,
+                    root = circuitInputs.root,
+                    ipfsCid = cid,
+                    txHash = txHash
+                )
+
+                val dbResponse = RetrofitClient.apiService.submitReportToBackend(backendRequest)
+
+                if (dbResponse.isSuccessful) {
+                    Log.d("ReportViewModel", "✅ 백엔드 DB 저장 성공!")
+                    loadReports()
+                } else {
+                    Log.e("ReportViewModel", "백엔드 저장 실패: ${dbResponse.code()}")
+                }
+
             } catch (t: Throwable) {
                 Log.e("ReportViewModel", "Failed to submit report", t)
             }
@@ -276,4 +305,115 @@ class ReportViewModel(application: Application) : AndroidViewModel(application) 
     }
 }
 
-data class IpfsResponse(val ipfsHash: String)
+data class IpfsResponse(val ipfsHash: String)*/
+
+class ReportViewModel(application: Application) : AndroidViewModel(application) {
+
+    // 화면에 보여줄 리스트
+    private val _reports = MutableStateFlow<List<Report>>(emptyList())
+    val reports: StateFlow<List<Report>> = _reports.asStateFlow()
+
+    private val _filterStatus = MutableStateFlow<ReportStatus?>(null)
+    val filterStatus: StateFlow<ReportStatus?> = _filterStatus.asStateFlow()
+
+    init {
+        // 뷰모델 생성 시 가짜 DB에서 데이터 로드
+        loadReports()
+    }
+
+    // 1. [조회] 서버 대신 FakeDb에서 가져옴
+    private fun loadReports() {
+        viewModelScope.launch {
+            // 로딩하는 척 0.5초 딜레이 (사용자 경험상 너무 빠르면 이상함)
+            delay(300)
+
+            // FakeDb에 있는 리스트를 최신순(역순)으로 가져옴
+            val allReports = FakeDb.reports.toList().reversed()
+            _reports.value = allReports
+
+            Log.d("FakeMode", "데이터 로드 완료: ${allReports.size}개")
+        }
+    }
+
+    // 2. [제출] 블록체인/서버 다 무시하고 FakeDb에 저장
+    fun submitReport(
+        category: ReportCategory,
+        title: String,
+        description: String,
+        department: String,
+        date: String
+    ) {
+        viewModelScope.launch {
+            Log.d("FakeMode", "🚀 시연용 저장 시작")
+
+            // 로딩하는 척 1.5초 딜레이 (마치 블록체인에 쓰는 것처럼)
+            delay(1500)
+
+            // 새로운 리포트 객체 생성
+            val newReport = Report(
+                id = (FakeDb.nextId++).toString(), // ID 자동 증가
+
+                // 보여주기용 가짜 데이터들
+                encryptedContent = "Encrypted_${System.currentTimeMillis()}",
+                ipfsCid = "QmDemoHash_${System.currentTimeMillis()}",
+                txHash = "0xDemoTxHash_${System.currentTimeMillis()}",
+
+                // 실제 입력받은 데이터
+                title = title,
+                description = description,
+                category = category,
+                department = department,
+                date = date,
+
+                // 초기 상태
+                status = ReportStatus.PENDING,
+                priority = ReportPriority.MEDIUM,
+                notes = ""
+            )
+
+            // FakeDb에 추가
+            FakeDb.reports.add(newReport)
+
+            Log.d("FakeMode", "✅ FakeDb 저장 완료!")
+
+            // 목록 갱신 (관리자가 볼 수 있게)
+            loadReports()
+        }
+    }
+
+    // 3. 필터링 기능 (UI에서 씀)
+    fun setFilterStatus(status: ReportStatus?) {
+        _filterStatus.value = status
+    }
+
+    // 4. [관리자용] 상태 변경 기능
+    fun updateReportStatus(reportId: String, status: ReportStatus) {
+        val target = FakeDb.reports.find { it.id == reportId }
+        target?.let {
+            // 원본 리스트에서 교체 (불변성 유지를 위해 삭제 후 추가 or data class copy 사용)
+            // 간단하게 하기 위해 FakeDb 리스트 내 객체를 직접 수정한다고 가정 (MutableList니까 가능)
+            // 하지만 Compose 갱신을 위해 리스트를 다시 불러와야 함.
+            val index = FakeDb.reports.indexOf(it)
+            FakeDb.reports[index] = it.copy(status = status)
+            loadReports()
+        }
+    }
+
+    fun updateReportPriority(reportId: String, priority: ReportPriority) {
+        val target = FakeDb.reports.find { it.id == reportId }
+        target?.let {
+            val index = FakeDb.reports.indexOf(it)
+            FakeDb.reports[index] = it.copy(priority = priority)
+            loadReports()
+        }
+    }
+
+    fun updateReportNotes(reportId: String, notes: String) {
+        val target = FakeDb.reports.find { it.id == reportId }
+        target?.let {
+            val index = FakeDb.reports.indexOf(it)
+            FakeDb.reports[index] = it.copy(notes = notes)
+            loadReports()
+        }
+    }
+}

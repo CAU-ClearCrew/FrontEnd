@@ -190,7 +190,7 @@ fun ReportCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = report.title,
+                    text = report.title ?: "암호화된 제보 #${report.id}",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )
@@ -201,20 +201,20 @@ fun ReportCard(
             ) {
                 AssistChip(
                     onClick = {},
-                    label = { Text(report.status.label, style = MaterialTheme.typography.labelSmall) }
+                    label = { Text(report.status?.label ?: "미분류", style = MaterialTheme.typography.labelSmall) }
                 )
                 AssistChip(
                     onClick = {},
-                    label = { Text(report.priority.label, style = MaterialTheme.typography.labelSmall) }
+                    label = { Text(report.priority?.label ?: "미분류", style = MaterialTheme.typography.labelSmall) }
                 )
                 AssistChip(
                     onClick = {},
-                    label = { Text(report.category.label, style = MaterialTheme.typography.labelSmall) }
+                    label = { Text(report.category?.label ?: "미분류", style = MaterialTheme.typography.labelSmall) }
                 )
             }
 
             Text(
-                text = report.description,
+                text = report.description ?: (report.encryptedContent ?: "내용 없음"),
                 style = MaterialTheme.typography.bodySmall,
                 maxLines = 2,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -223,7 +223,7 @@ fun ReportCard(
             Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                if (report.department.isNotBlank()) {
+                if (!report.department.isNullOrBlank()) {
                     Text(
                         text = report.department,
                         style = MaterialTheme.typography.bodySmall,
@@ -238,7 +238,7 @@ fun ReportCard(
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = report.date,
+                    text = report.date ?: "",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -256,7 +256,7 @@ fun ReportDetailDialog(
     onUpdatePriority: (ReportPriority) -> Unit,
     onUpdateNotes: (String) -> Unit
 ) {
-    var notes by remember { mutableStateOf(report.notes) }
+    var notes by remember { mutableStateOf(report.notes ?: "") }
     var expandedStatus by remember { mutableStateOf(false) }
     var expandedPriority by remember { mutableStateOf(false) }
 
@@ -278,25 +278,25 @@ fun ReportDetailDialog(
 
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text("제목", style = MaterialTheme.typography.labelMedium)
-                    Text(report.title, style = MaterialTheme.typography.bodyMedium)
+                    Text(report.title ?: "암호화된 제보 #${report.id}", style = MaterialTheme.typography.bodyMedium)
                 }
 
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text("신고 유형", style = MaterialTheme.typography.labelMedium)
                     AssistChip(
                         onClick = {},
-                        label = { Text(report.category.label) }
+                        label = { Text(report.category?.label ?: "기타") }
                     )
                 }
 
-                if (report.department.isNotBlank()) {
+                if (!report.department.isNullOrBlank()) {
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         Text("관련 부서", style = MaterialTheme.typography.labelMedium)
                         Text(report.department, style = MaterialTheme.typography.bodyMedium)
                     }
                 }
 
-                if (report.date.isNotBlank()) {
+                if (!report.date.isNullOrBlank()) {
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         Text("발생 일시", style = MaterialTheme.typography.labelMedium)
                         Text(report.date, style = MaterialTheme.typography.bodyMedium)
@@ -311,7 +311,7 @@ fun ReportDetailDialog(
                         )
                     ) {
                         Text(
-                            text = report.description,
+                            text = report.description ?: (report.encryptedContent ?: "내용 없음"),
                             modifier = Modifier.padding(12.dp),
                             style = MaterialTheme.typography.bodySmall
                         )
@@ -330,7 +330,7 @@ fun ReportDetailDialog(
                             onExpandedChange = { expandedStatus = it }
                         ) {
                             OutlinedTextField(
-                                value = report.status.label,
+                                value = report.status?.label ?: "대기중",
                                 onValueChange = {},
                                 readOnly = true,
                                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedStatus) },
@@ -363,7 +363,7 @@ fun ReportDetailDialog(
                             onExpandedChange = { expandedPriority = it }
                         ) {
                             OutlinedTextField(
-                                value = report.priority.label,
+                                value = report.priority?.label ?: "보통",
                                 onValueChange = {},
                                 readOnly = true,
                                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedPriority) },

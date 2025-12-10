@@ -1,13 +1,12 @@
 package com.example.mobileappdevelopment.navigation
 
-import androidx.compose.foundation.layout.padding
+
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -20,14 +19,12 @@ import com.example.mobileappdevelopment.data.UserRole
 import com.example.mobileappdevelopment.ui.screen.AnonymousReportScreen
 import com.example.mobileappdevelopment.ui.screen.EmployeeManagementScreen
 import com.example.mobileappdevelopment.ui.screen.ReportManagementScreen
-import com.example.mobileappdevelopment.ui.screen.ZkSettingsScreen
 import com.example.mobileappdevelopment.veiwmodel.EmployeeViewModel
 import com.example.mobileappdevelopment.veiwmodel.ReportViewModel
-import com.example.mobileappdevelopment.veiwmodel.ZkViewModel
 
-sealed class Screen(val route: String, val title: String, val icon: ImageVector) {
+
+sealed class Screen(val route: String, val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
     object AnonymousReport : Screen("anonymous_report", "익명 고발", Icons.Default.Report)
-    object ZkSettings : Screen("zk_settings", "익명 ID 설정", Icons.Default.VpnKey)
     object EmployeeManagement : Screen("employee_management", "사원 관리", Icons.Default.People)
     object ReportManagement : Screen("report_management", "신고 관리", Icons.Default.Assignment)
 }
@@ -36,22 +33,20 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector)
 @Composable
 fun MainScreen(
     currentUser: User,
-    onLogout: () -> Unit,
-    reportViewModel: ReportViewModel,
-    zkViewModel: ZkViewModel
+    onLogout: () -> Unit
 ) {
     val navController = rememberNavController()
     val employeeViewModel: EmployeeViewModel = viewModel()
+    val reportViewModel: ReportViewModel = viewModel()
 
     val screens = if (currentUser.role == UserRole.ADMIN) {
         listOf(
             Screen.AnonymousReport,
-            Screen.ZkSettings,
             Screen.EmployeeManagement,
             Screen.ReportManagement
         )
     } else {
-        listOf(Screen.AnonymousReport, Screen.ZkSettings)
+        listOf(Screen.AnonymousReport)
     }
 
     Scaffold(
@@ -105,10 +100,6 @@ fun MainScreen(
                         reportViewModel.submitReport(category, title, description, department, date)
                     }
                 )
-            }
-
-            composable(Screen.ZkSettings.route) {
-                ZkSettingsScreen(viewModel = zkViewModel)
             }
 
             composable(Screen.EmployeeManagement.route) {

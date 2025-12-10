@@ -131,7 +131,7 @@ fun ReportManagementScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "해당하는 신고가 없습니다",
+                                text = "해당 신고가 없습니다",
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }

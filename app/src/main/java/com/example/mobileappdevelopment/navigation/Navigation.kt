@@ -21,6 +21,7 @@ import com.example.mobileappdevelopment.ui.screen.EmployeeManagementScreen
 import com.example.mobileappdevelopment.ui.screen.ReportManagementScreen
 import com.example.mobileappdevelopment.veiwmodel.EmployeeViewModel
 import com.example.mobileappdevelopment.veiwmodel.ReportViewModel
+import com.example.mobileappdevelopment.veiwmodel.ZkViewModel
 
 
 sealed class Screen(val route: String, val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
@@ -33,7 +34,9 @@ sealed class Screen(val route: String, val title: String, val icon: androidx.com
 @Composable
 fun MainScreen(
     currentUser: User,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    reportViewModel: ReportViewModel,
+    zkViewModel: ZkViewModel
 ) {
     val navController = rememberNavController()
     val employeeViewModel: EmployeeViewModel = viewModel()

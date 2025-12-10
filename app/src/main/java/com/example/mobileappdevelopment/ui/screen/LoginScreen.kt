@@ -177,11 +177,11 @@ fun LoginScreen(
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
-                                text = "관리자: admin@company.com / admin123",
+                                text = "관리자: testAdmin@company.com / admin123",
                                 style = MaterialTheme.typography.bodySmall
                             )
                             Text(
-                                text = "사원: minsu.kim@company.com / password123",
+                                text = "사원: testUser@company.com / user123",
                                 style = MaterialTheme.typography.bodySmall
                             )
                         }

@@ -19,6 +19,7 @@ import com.example.mobileappdevelopment.data.UserRole
 import com.example.mobileappdevelopment.ui.screen.AnonymousReportScreen
 import com.example.mobileappdevelopment.ui.screen.EmployeeManagementScreen
 import com.example.mobileappdevelopment.ui.screen.ReportManagementScreen
+import com.example.mobileappdevelopment.ui.screen.ZkSettingsScreen
 import com.example.mobileappdevelopment.veiwmodel.EmployeeViewModel
 import com.example.mobileappdevelopment.veiwmodel.ReportViewModel
 import com.example.mobileappdevelopment.veiwmodel.ZkViewModel
@@ -28,6 +29,7 @@ sealed class Screen(val route: String, val title: String, val icon: androidx.com
     object AnonymousReport : Screen("anonymous_report", "익명 고발", Icons.Default.Report)
     object EmployeeManagement : Screen("employee_management", "사원 관리", Icons.Default.People)
     object ReportManagement : Screen("report_management", "신고 관리", Icons.Default.Assignment)
+    object ZkSettings : Screen("zk_settings", "ZK 설정", Icons.Default.Settings)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,16 +42,18 @@ fun MainScreen(
 ) {
     val navController = rememberNavController()
     val employeeViewModel: EmployeeViewModel = viewModel()
-    val reportViewModel: ReportViewModel = viewModel()
 
     val screens = if (currentUser.role == UserRole.ADMIN) {
         listOf(
             Screen.AnonymousReport,
             Screen.EmployeeManagement,
-            Screen.ReportManagement
+            Screen.ReportManagement,
+            Screen.ZkSettings
         )
     } else {
-        listOf(Screen.AnonymousReport)
+        listOf(Screen.AnonymousReport,
+            Screen.ZkSettings
+        )
     }
 
     Scaffold(
@@ -115,6 +119,9 @@ fun MainScreen(
                 if (currentUser.role == UserRole.ADMIN) {
                     ReportManagementScreen(viewModel = reportViewModel)
                 }
+            }
+            composable(Screen.ZkSettings.route) {
+                ZkSettingsScreen(viewModel = zkViewModel)
             }
         }
     }

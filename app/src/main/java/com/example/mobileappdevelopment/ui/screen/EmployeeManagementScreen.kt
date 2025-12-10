@@ -30,10 +30,10 @@ fun EmployeeManagementScreen(
         if (searchQuery.isBlank()) {
             employees
         } else {
-            employees.filter {
-                it.name.contains(searchQuery, ignoreCase = true) ||
-                        it.email.contains(searchQuery, ignoreCase = true) ||
-                        it.department.contains(searchQuery, ignoreCase = true)
+            employees.filter {employee ->
+                (employee.name ?: "").contains(searchQuery, ignoreCase = true) ||
+                        (employee.email ?: "").contains(searchQuery, ignoreCase = true) ||
+                        (employee.department ?: "").contains(searchQuery, ignoreCase = true)
             }
         }
     }
@@ -77,7 +77,7 @@ fun EmployeeManagementScreen(
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { viewModel.updateSearchQuery(it) },
-                    placeholder = { Text("이름, 이메일, 부서로 검색...") },
+                    placeholder = { Text("이름, 이메일로 검색...") },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
@@ -161,11 +161,6 @@ fun EmployeeCard(
                 }
                 Text(
                     text = employee.email,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Text(
-                    text = "${employee.department} • ${employee.position} • 입사일: ${employee.joinDate}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -335,7 +330,7 @@ fun EmployeeDialog(
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("취소.")
+                Text("취소")
             }
         }
     )

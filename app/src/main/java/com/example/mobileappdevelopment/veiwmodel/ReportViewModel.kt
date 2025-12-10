@@ -324,7 +324,7 @@ class ReportViewModel(application: Application) : AndroidViewModel(application) 
     // 1. [조회] 서버 대신 FakeDb에서 가져옴
     private fun loadReports() {
         viewModelScope.launch {
-            // 로딩하는 척 0.5초 딜레이 (사용자 경험상 너무 빠르면 이상함)
+            // 로딩하는 척 0.3초 딜레이 (사용자 경험상 너무 빠르면 이상함)
             delay(300)
 
             // FakeDb에 있는 리스트를 최신순(역순)으로 가져옴

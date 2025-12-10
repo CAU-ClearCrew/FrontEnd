@@ -66,7 +66,7 @@ fun AnonymousReportScreen(
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "부당한 대우나 부정행위를 안전하게 신고할 수 있습니다",
+                text = "부당한 대우나 부정행위를 안전하게 신고할 수 있습니다.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -121,7 +121,7 @@ fun AnonymousReportScreen(
                         tint = MaterialTheme.colorScheme.primary
                     )
                     Text(
-                        text = "신고가 접수되었습니다",
+                        text = "신고가 접수되었습니다.",
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
@@ -148,7 +148,7 @@ fun AnonymousReportScreen(
                 ) {
 
                     Text(
-                        text = "가능한 자세히 작성해 주시면 더 신속한 처리가 가능합니다",
+                        text = "가능한 자세히 작성해 주시면 더 신속한 처리가 가능합니다.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -231,9 +231,9 @@ fun AnonymousReportScreen(
                                 text = "개인정보 보호 안내",
                                 style = MaterialTheme.typography.titleSmall
                             )
-                            Text("• 신고서에는 신고자를 특정할 수 있는 정보를 포함하지 마세요", style = MaterialTheme.typography.bodySmall)
-                            Text("• 모든 신고는 암호화되어 저장됩니다", style = MaterialTheme.typography.bodySmall)
-                            Text("• 조사는 독립적인 윤리위원회에서 진행합니다", style = MaterialTheme.typography.bodySmall)
+                            Text("• 신고서에는 신고자를 특정할 수 있는 정보를 포함하지 마세요.", style = MaterialTheme.typography.bodySmall)
+                            Text("• 모든 신고는 암호화되어 저장됩니다.", style = MaterialTheme.typography.bodySmall)
+                            Text("• 조사는 독립적인 윤리위원회에서 진행합니다.", style = MaterialTheme.typography.bodySmall)
                         }
                     }
 

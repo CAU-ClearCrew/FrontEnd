@@ -35,7 +35,7 @@ class ZkViewModel(application: Application) : AndroidViewModel(application) {
                         // digest(false) returns BigInteger[] where the first element is the hash
                         hasher.digest(false)[0].toString(16)
                     } catch (e: NumberFormatException) {
-                        _registrationStatus.value = "입력 값은 16진수 문자(0-9, a-f)만 포함해야 합니다."
+                        _registrationStatus.value = "Input must contain only hexadecimal characters (0-9, a-f)."
                         null
                     }
                 }
@@ -47,12 +47,12 @@ class ZkViewModel(application: Application) : AndroidViewModel(application) {
 
                 if (response.isSuccessful) {
                     ZkKeyManager.saveKeys(getApplication(), customNullifier, secret)
-                    _registrationStatus.value = "성공적으로 등록되었습니다."
+                    _registrationStatus.value = "Successfully registered."
                 } else {
-                    _registrationStatus.value = "등록에 실패했습니다: ${response.message()}"
+                    _registrationStatus.value = "Registration failed: ${response.message()}"
                 }
             } catch (e: Exception) {
-                _registrationStatus.value = "오류가 발생했습니다: ${e.message}"
+                _registrationStatus.value = "An error occurred: ${e.message}"
             }
         }
     }

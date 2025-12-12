@@ -55,27 +55,32 @@ fun EmployeeManagementScreen(
                 ) {
                     Column {
                         Text(
-                            text = "사원 관리",
+                            text = "Employee Management",
                             style = MaterialTheme.typography.titleLarge
                         )
                         Text(
-                            text = "회사 사원 정보를 관리합니다",
+                            text = "Manage company employee information.",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
 
-                    Button(onClick = { showAddDialog = true }) {
-                        Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(18.dp))
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("사원 추가")
-                    }
+                    AssistChip(
+                        onClick = { showAddDialog = true },
+                        label = { Text("Add Employee") },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.Add,
+                                contentDescription = "Add Employee"
+                            )
+                        }
+                    )
                 }
 
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { viewModel.updateSearchQuery(it) },
-                    placeholder = { Text("이름, 이메일, 부서로 검색...") },
+                    placeholder = { Text("Search by name, email, department...") },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
@@ -151,7 +156,7 @@ fun EmployeeCard(
                         onClick = {},
                         label = {
                             Text(
-                                text = if (employee.status == EmployeeStatus.ACTIVE) "재직중" else "퇴사",
+                                text = if (employee.status == EmployeeStatus.ACTIVE) "Active" else "Inactive",
                                 style = MaterialTheme.typography.labelSmall
                             )
                         }
@@ -163,7 +168,7 @@ fun EmployeeCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = "${employee.department} • ${employee.position} • 입사일: ${employee.joinDate}",
+                    text = "${employee.department} • ${employee.position} • Joined: ${employee.joinDate}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -173,12 +178,12 @@ fun EmployeeCard(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 IconButton(onClick = onEdit) {
-                    Icon(Icons.Default.Edit, contentDescription = "수정")
+                    Icon(Icons.Default.Edit, contentDescription = "Edit")
                 }
                 IconButton(onClick = { showDeleteDialog = true }) {
                     Icon(
                         Icons.Default.Delete,
-                        contentDescription = "삭제",
+                        contentDescription = "Delete",
                         tint = MaterialTheme.colorScheme.error
                     )
                 }
@@ -189,8 +194,8 @@ fun EmployeeCard(
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("사원 삭제") },
-            text = { Text("정말로 이 사원을 삭제하시겠습니까?") },
+            title = { Text("Delete Employee") },
+            text = { Text("Are you sure you want to delete this employee?") },
             confirmButton = {
                 Button(
                     onClick = {
@@ -201,12 +206,12 @@ fun EmployeeCard(
                         containerColor = MaterialTheme.colorScheme.error
                     )
                 ) {
-                    Text("삭제")
+                    Text("Delete")
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteDialog = false }) {
-                    Text("취소")
+                    Text("Cancel")
                 }
             }
         )
@@ -230,7 +235,7 @@ fun EmployeeDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(if (employee == null) "새 사원 추가" else "사원 정보 수정") },
+        title = { Text(if (employee == null) "Add New Employee" else "Edit Employee Information") },
         text = {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -239,15 +244,15 @@ fun EmployeeDialog(
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("이름") },
-                    placeholder = { Text("홍길동") },
+                    label = { Text("Name") },
+                    placeholder = { Text("Gildong Hong") },
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    label = { Text("이메일") },
+                    label = { Text("Email") },
                     placeholder = { Text("hong@company.com") },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -255,23 +260,23 @@ fun EmployeeDialog(
                 OutlinedTextField(
                     value = department,
                     onValueChange = { department = it },
-                    label = { Text("부서") },
-                    placeholder = { Text("개발팀") },
+                    label = { Text("Department") },
+                    placeholder = { Text("Development Team") },
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 OutlinedTextField(
                     value = position,
                     onValueChange = { position = it },
-                    label = { Text("직급") },
-                    placeholder = { Text("주니어 개발자") },
+                    label = { Text("Position") },
+                    placeholder = { Text("Junior Developer") },
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 OutlinedTextField(
                     value = joinDate,
                     onValueChange = { joinDate = it },
-                    label = { Text("입사일") },
+                    label = { Text("Join Date") },
                     placeholder = { Text("YYYY-MM-DD") },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -281,10 +286,10 @@ fun EmployeeDialog(
                     onExpandedChange = { expandedStatus = it }
                 ) {
                     OutlinedTextField(
-                        value = if (status == EmployeeStatus.ACTIVE) "재직중" else "퇴사",
+                        value = if (status == EmployeeStatus.ACTIVE) "Active" else "Inactive",
                         onValueChange = {},
                         readOnly = true,
-                        label = { Text("상태") },
+                        label = { Text("Status") },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedStatus) },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -295,14 +300,14 @@ fun EmployeeDialog(
                         onDismissRequest = { expandedStatus = false }
                     ) {
                         DropdownMenuItem(
-                            text = { Text("재직중") },
+                            text = { Text("Active") },
                             onClick = {
                                 status = EmployeeStatus.ACTIVE
                                 expandedStatus = false
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text("퇴사") },
+                            text = { Text("Inactive") },
                             onClick = {
                                 status = EmployeeStatus.INACTIVE
                                 expandedStatus = false
@@ -328,12 +333,12 @@ fun EmployeeDialog(
                 },
                 enabled = name.isNotBlank() && email.isNotBlank()
             ) {
-                Text(if (employee == null) "추가" else "저장")
+                Text(if (employee == null) "Add" else "Save")
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("취소.")
+                Text("Cancel")
             }
         }
     )

@@ -26,10 +26,10 @@ import com.example.mobileappdevelopment.veiwmodel.ReportViewModel
 import com.example.mobileappdevelopment.veiwmodel.ZkViewModel
 
 sealed class Screen(val route: String, val title: String, val icon: ImageVector) {
-    object AnonymousReport : Screen("anonymous_report", "익명 고발", Icons.Default.Report)
-    object ZkSettings : Screen("zk_settings", "익명 ID 설정", Icons.Default.VpnKey)
-    object EmployeeManagement : Screen("employee_management", "사원 관리", Icons.Default.People)
-    object ReportManagement : Screen("report_management", "신고 관리", Icons.Default.Assignment)
+    object AnonymousReport : Screen("anonymous_report", "Anonymous Report", Icons.Default.Report)
+    object ZkSettings : Screen("zk_settings", "Anonymous ID Settings", Icons.Default.VpnKey)
+    object EmployeeManagement : Screen("employee_management", "Employee Management", Icons.Default.People)
+    object ReportManagement : Screen("report_management", "Report Management", Icons.Default.Assignment)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,10 +57,10 @@ fun MainScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("회사 관리 시스템") },
+                title = { Text("Company Management System") },
                 actions = {
                     IconButton(onClick = onLogout) {
-                        Icon(Icons.Default.Logout, contentDescription = "로그아웃")
+                        Icon(Icons.Default.Logout, contentDescription = "Logout")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(

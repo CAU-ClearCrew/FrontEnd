@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
-    // TODO: 실제 백엔드 URL로 변경
+    // TODO: Change to the actual backend URL
     private const val BASE_URL = "http://10.0.2.2:3000"
 //    private const val BASE_URL = "http://localhost:3000"
     private val loggingInterceptor = HttpLoggingInterceptor().apply {

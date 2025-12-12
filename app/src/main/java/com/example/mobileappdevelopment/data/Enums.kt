@@ -10,24 +10,24 @@ enum class EmployeeStatus {
 }
 
 enum class ReportCategory(val label: String) {
-    HARASSMENT("괴롭힘/따돌림"),
-    DISCRIMINATION("차별"),
-    CORRUPTION("부정/비리"),
-    SAFETY("안전 위반"),
-    ETHICS("윤리 위반"),
-    OTHER("기타")
+    HARASSMENT("Harassment"),
+    DISCRIMINATION("Discrimination"),
+    CORRUPTION("Corruption"),
+    SAFETY("Safety Violation"),
+    ETHICS("Ethics Violation"),
+    OTHER("Other")
 }
 
 enum class ReportStatus(val label: String) {
-    PENDING("접수"),
-    INVESTIGATING("조사중"),
-    RESOLVED("해결"),
-    CLOSED("종료")
+    PENDING("Pending"),
+    INVESTIGATING("Investigating"),
+    RESOLVED("Resolved"),
+    CLOSED("Closed")
 }
 
-//TODO 이거 안 씀.
+//TODO Not used.
 enum class ReportPriority(val label: String) {
-    LOW("낮음"),
-    MEDIUM("보통"),
-    HIGH("높음")
+    LOW("Low"),
+    MEDIUM("Medium"),
+    HIGH("High")
 }

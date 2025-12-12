@@ -11,68 +11,68 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ApiService {
-    //로그인
+    //Login
     @POST("api/auth/login")
     suspend fun login(
         @Body request: LoginRequest
     ): Response<LoginResponse>
 
-    //새로운 사원 등록
+    //Register new employee
     @POST("api/employees")
     suspend fun createEmployee(
         @Body request: CreateEmployeeRequest
     ): Response<CreateEmployeeResponse>
 
-    //사원 목록 불러오기
+    //Get employee list
     @GET("api/employees")
     suspend fun getEmployees(): Response<List<Employee>>
 
-    //사원 업데이트
+    //Update employee
     @PATCH("api/employees/{id}")
     suspend fun updateEmployee(
         @Path("id") id: String,
         @Body request: UpdateEmployeeRequest
     ): Response<UpdateEmployeeResponse>
 
-    //사원 상태 업데이트 (퇴사 처리)
+    //Update employee status (e.g., resignation)
     @PATCH("api/employees/{id}/status")
     suspend fun updateEmployeeStatus(
         @Path("id") id: String,
         @Body request: StatusUpdateRequest
     ): Response<Unit>
 
-    //사원 삭제
+    //Delete employee
     @DELETE("api/employees/{id}")
     suspend fun deleteEmployee(
         @Path("id") id: String
     ): Response<Unit>
 
-    //신고내용 가져오기
+    //Get report content
     @GET("api/report")
     suspend fun getReports(): Response<List<Report>>
 
-    //신고 상태 업데이트
+    //Update report status
     @PATCH("reports/{id}/status")
     suspend fun updateReportStatus(
         @Path("id") id: String,
         @Body status: UpdateStatusRequest
     ): Response<Report>
 
-    //신고 우선순위 업데이트
+    //Update report priority
     @PATCH("reports/{id}/priority")
     suspend fun updateReportPriority(
         @Path("id") id: String,
         @Body priority: UpdatePriorityRequest
     ): Response<Report>
 
-    //신고 노트 업데이트
+    //Update report notes
     @PATCH("reports/{id}/notes")
     suspend fun updateReportNotes(
         @Path("id") id: String,
         @Body notes: UpdateNotesRequest
     ): Response<Report>
 
-    // Merkle & ZK 관련
+    // Merkle & ZK related
     @GET("api/keys/public")
     suspend fun getPublicKey(): Response<PublicKeyResponse>
 
@@ -85,7 +85,7 @@ interface ApiService {
     suspend fun getMerkleTreeInfo(): Response<CircuitInputsResponse>
 }
 
-// Request/Response 모델들
+// Request/Response models
 data class LoginRequest(
     val email: String,
     val password: String
@@ -133,7 +133,7 @@ data class UpdatePriorityRequest(val priority: String)
 data class UpdateNotesRequest(val notes: String)
 
 
-// Merkle & ZK 모델들
+// Merkle & ZK models
 data class PublicKeyResponse(
     val publicKey: String
 )

@@ -28,10 +28,10 @@ class AuthViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     loginResponse?.let {
-                        // 토큰 저장
+                        // Save token
                         TokenManager.saveToken(it.token)
 
-                        // User 객체 생성
+                        // Create User object
                         val userRole = if (it.role == "ADMIN") UserRole.ADMIN else UserRole.EMPLOYEE
                         _currentUser.value = User(
                             email = email,
@@ -41,44 +41,44 @@ class AuthViewModel : ViewModel() {
                         _loginError.value = null
                     }
                 } else {
-                    _loginError.value = "로그인에 실패했습니다."
+                    _loginError.value = "Login failed."
                 }
             } catch (e: Exception) {
-                _loginError.value = "네트워크 오류: ${e.message}"
+                _loginError.value = "Network error: ${e.message}"
             }
 //
-//            /*테스트용 아이디&비번*/
+//            /*Test ID & Password*/
 //            when {
-//                //관리자
+//                //Admin
 //                email == "admin@company.com" && password == "admin123" && role == UserRole.ADMIN -> {
 //                    _currentUser.value = User(
 //                        email = "admin@company.com",
-//                        name = "관리자",
+//                        name = "Admin",
 //                        role = UserRole.ADMIN,
-//                        department = "시스템 관리" // department 필드가 있다면 추가
+//                        department = "System Management" // Add if department field exists
 //                    )
 //                    _loginError.value = null
 //                }
-//                //사원
+//                //Employee
 //                email == "minsu.kim@company.com" && password == "password123" && role == UserRole.EMPLOYEE -> {
 //                    _currentUser.value = User(
 //                        email = "minsu.kim@company.com",
-//                        name = "김민수",
+//                        name = "Minsu Kim",
 //                        role = UserRole.EMPLOYEE,
-//                        department = "개발팀" // department 필드가 있다면 추가
+//                        department = "Development Team" // Add if department field exists
 //                    )
 //                    _loginError.value = null
 //                }
 //
 //                else -> {
-//                    _loginError.value = "이메일 또는 비밀번호가 올바르지 않습니다."
+//                    _loginError.value = "Incorrect email or password."
 //                }
 //            }
         }
     }
 
     fun logout() {
-        TokenManager.clearToken()  // 토큰 삭제
+        TokenManager.clearToken()  // Clear token
         _currentUser.value = null
     }
 }

@@ -22,7 +22,7 @@ fun ZkSettingsScreen(viewModel: ZkViewModel = viewModel()) {
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("익명 ID 설정", style = MaterialTheme.typography.headlineSmall)
+        Text("Anonymous ID Settings", style = MaterialTheme.typography.headlineSmall)
 
         OutlinedTextField(
             value = customNullifier,
@@ -31,9 +31,9 @@ fun ZkSettingsScreen(viewModel: ZkViewModel = viewModel()) {
                     customNullifier = newValue
                 }
             },
-            label = { Text("익명 ID (Custom Nullifier)") },
+            label = { Text("Anonymous ID (Custom Nullifier)") },
             modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text("16진수 값을 입력하세요") }
+            placeholder = { Text("Enter a hexadecimal value") }
         )
 
         OutlinedTextField(
@@ -43,9 +43,9 @@ fun ZkSettingsScreen(viewModel: ZkViewModel = viewModel()) {
                     secret = newValue
                 }
             },
-            label = { Text("비밀 값 (Secret)") },
+            label = { Text("Secret Value (Secret)") },
             modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text("16진수 값을 입력하세요") }
+            placeholder = { Text("Enter a hexadecimal value") }
         )
 
         Button(
@@ -53,7 +53,7 @@ fun ZkSettingsScreen(viewModel: ZkViewModel = viewModel()) {
             enabled = customNullifier.isNotBlank() && secret.isNotBlank(),
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("등록하기")
+            Text("Register")
         }
 
         registrationStatus?.let {

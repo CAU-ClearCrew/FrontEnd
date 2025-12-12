@@ -58,11 +58,11 @@ fun AnonymousReportScreen(
                 tint = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = "익명 고발 시스템",
+                text = "Anonymous Reporting System",
                 style = MaterialTheme.typography.headlineSmall
             )
             Text(
-                text = "부당한 대우나 부정행위를 안전하게 신고할 수 있습니다",
+                text = "You can safely report unfair treatment or misconduct.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -84,12 +84,12 @@ fun AnonymousReportScreen(
                 )
                 Column {
                     Text(
-                        text = "완전한 익명성 보장",
+                        text = "Complete Anonymity Guaranteed",
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.onTertiaryContainer
                     )
                     Text(
-                        text = "모든 신고는 완전히 익명으로 처리되며, 신고자의 신원은 절대 공개되지 않습니다.",
+                        text = "All reports are processed with complete anonymity, and the reporter's identity will never be disclosed.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onTertiaryContainer
                     )
@@ -117,12 +117,12 @@ fun AnonymousReportScreen(
                         tint = MaterialTheme.colorScheme.primary
                     )
                     Text(
-                        text = "신고가 접수되었습니다",
+                        text = "Report Submitted",
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Text(
-                        text = "신고 내용은 관리자가 검토할 예정입니다. 협조해 주셔서 감사합니다.",
+                        text = "The report will be reviewed by an administrator. Thank you for your cooperation.",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
@@ -135,11 +135,11 @@ fun AnonymousReportScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Text(
-                        text = "신고서 작성",
+                        text = "Create a Report",
                         style = MaterialTheme.typography.titleLarge
                     )
                     Text(
-                        text = "가능한 자세히 작성해 주시면 더 신속한 처리가 가능합니다",
+                        text = "Providing as much detail as possible will allow for a quicker resolution.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -152,7 +152,7 @@ fun AnonymousReportScreen(
                             value = category?.label ?: "",
                             onValueChange = {},
                             readOnly = true,
-                            label = { Text("신고 유형") },
+                            label = { Text("Report Category") },
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedCategory) },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -177,15 +177,15 @@ fun AnonymousReportScreen(
                     OutlinedTextField(
                         value = department,
                         onValueChange = { department = it },
-                        label = { Text("관련 부서 (선택사항)") },
-                        placeholder = { Text("예: 마케팅팀") },
+                        label = { Text("Related Department (Optional)") },
+                        placeholder = { Text("e.g., Marketing Team") },
                         modifier = Modifier.fillMaxWidth()
                     )
 
                     OutlinedTextField(
                         value = date,
                         onValueChange = { date = it },
-                        label = { Text("발생 일시 (선택사항)") },
+                        label = { Text("Date of Occurrence (Optional)") },
                         placeholder = { Text("YYYY-MM-DD") },
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -193,16 +193,16 @@ fun AnonymousReportScreen(
                     OutlinedTextField(
                         value = title,
                         onValueChange = { title = it },
-                        label = { Text("제목") },
-                        placeholder = { Text("간단한 제목을 입력하세요") },
+                        label = { Text("Title") },
+                        placeholder = { Text("Enter a brief title") },
                         modifier = Modifier.fillMaxWidth()
                     )
 
                     OutlinedTextField(
                         value = description,
                         onValueChange = { description = it },
-                        label = { Text("상세 내용") },
-                        placeholder = { Text("발생한 상황을 자세히 설명해 주세요. 증거나 목격자 정보가 있다면 함께 기재해 주세요.") },
+                        label = { Text("Detailed Description") },
+                        placeholder = { Text("Please describe the situation in detail. If there is evidence or witness information, please include it.") },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(200.dp),
@@ -219,12 +219,12 @@ fun AnonymousReportScreen(
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             Text(
-                                text = "개인정보 보호 안내",
+                                text = "Privacy Information",
                                 style = MaterialTheme.typography.titleSmall
                             )
-                            Text("• 신고서에는 신고자를 특정할 수 있는 정보를 포함하지 마세요", style = MaterialTheme.typography.bodySmall)
-                            Text("• 모든 신고는 암호화되어 저장됩니다", style = MaterialTheme.typography.bodySmall)
-                            Text("• 조사는 독립적인 윤리위원회에서 진행합니다", style = MaterialTheme.typography.bodySmall)
+                            Text("• Do not include information that could identify you in the report.", style = MaterialTheme.typography.bodySmall)
+                            Text("• All reports are stored encrypted.", style = MaterialTheme.typography.bodySmall)
+                            Text("• The investigation is conducted by an independent ethics committee.", style = MaterialTheme.typography.bodySmall)
                         }
                     }
 
@@ -238,7 +238,7 @@ fun AnonymousReportScreen(
                         modifier = Modifier.fillMaxWidth(),
                         enabled = category != null && title.isNotBlank() && description.isNotBlank()
                     ) {
-                        Text("익명으로 신고하기")
+                        Text("Submit Anonymously")
                     }
                 }
             }

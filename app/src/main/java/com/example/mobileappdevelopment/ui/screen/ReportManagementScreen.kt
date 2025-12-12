@@ -53,7 +53,7 @@ fun ReportManagementScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = "신고 현황",
+            text = "Report Status",
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold
         )
@@ -68,7 +68,7 @@ fun ReportManagementScreen(
             ) {
 
                 Text(
-                    text = "접수된 모든 익명 신고를 관리합니다",
+                    text = "Manage all anonymous reports received.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -78,13 +78,13 @@ fun ReportManagementScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     StatusCard(
-                        label = "전체",
+                        label = "All",
                         count = reportsByStatus[null] ?: 0,
                         onClick = { viewModel.setFilterStatus(null) },
                         modifier = Modifier.weight(1f)
                     )
                     StatusCard(
-                        label = "접수",
+                        label = "Pending",
                         count = reportsByStatus[ReportStatus.PENDING] ?: 0,
                         onClick = { viewModel.setFilterStatus(ReportStatus.PENDING) },
                         modifier = Modifier.weight(1f)
@@ -96,19 +96,19 @@ fun ReportManagementScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     StatusCard(
-                        label = "조사중",
+                        label = "Investigating",
                         count = reportsByStatus[ReportStatus.INVESTIGATING] ?: 0,
                         onClick = { viewModel.setFilterStatus(ReportStatus.INVESTIGATING) },
                         modifier = Modifier.weight(1f)
                     )
                     StatusCard(
-                        label = "해결",
+                        label = "Resolved",
                         count = reportsByStatus[ReportStatus.RESOLVED] ?: 0,
                         onClick = { viewModel.setFilterStatus(ReportStatus.RESOLVED) },
                         modifier = Modifier.weight(1f)
                     )
                     StatusCard(
-                        label = "종료",
+                        label = "Closed",
                         count = reportsByStatus[ReportStatus.CLOSED] ?: 0,
                         onClick = { viewModel.setFilterStatus(ReportStatus.CLOSED) },
                         modifier = Modifier.weight(1f)
@@ -133,7 +133,7 @@ fun ReportManagementScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "해당하는 신고가 없습니다",
+                                text = "No reports found for this category.",
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
@@ -199,7 +199,7 @@ fun ReportCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = report.title ?: "제목 없음",
+                    text = report.title ?: "No Title",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )
@@ -208,23 +208,23 @@ fun ReportCard(
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // 수정 후
+                
                 AssistChip(
                     onClick = {},
-                    label = { Text(report.status?.label ?: "상태 미지정", style = MaterialTheme.typography.labelSmall) }
+                    label = { Text(report.status?.label ?: "No Status", style = MaterialTheme.typography.labelSmall) }
                 )
                 AssistChip(
                     onClick = {},
-                    label = { Text(report.priority?.label ?: "우선순위 미지정", style = MaterialTheme.typography.labelSmall) }
+                    label = { Text(report.priority?.label ?: "No Priority", style = MaterialTheme.typography.labelSmall) }
                 )
                 AssistChip(
                     onClick = {},
-                    label = { Text(report.category?.label ?: "유형 미지정", style = MaterialTheme.typography.labelSmall) }
+                    label = { Text(report.category?.label ?: "No Category", style = MaterialTheme.typography.labelSmall) }
                 )
             }
 
             Text(
-                text = report.description ?: "내용 없음",
+                text = report.description ?: "No Description",
                 style = MaterialTheme.typography.bodySmall,
                 maxLines = 2,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -232,16 +232,16 @@ fun ReportCard(
 
             Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalAlignment = Alignment.CenterVertically // 아이콘과 텍스트 정렬을 위해 추가하면 좋습니다.
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                // 1. report.department가 null이 아니고 비어있지도 않을 때만 Text를 표시합니다.
+                
                 if (!report.department.isNullOrBlank()) {
                     Text(
                         text = report.department,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    Text(" • ", color = MaterialTheme.colorScheme.onSurfaceVariant) // 양쪽에 공백을 추가하면 더 보기 좋습니다.
+                    Text(" • ", color = MaterialTheme.colorScheme.onSurfaceVariant) 
                 }
                 Icon(
                     Icons.Default.DateRange,
@@ -249,7 +249,7 @@ fun ReportCard(
                     modifier = Modifier.size(14.dp),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                // 2. report.date가 null일 경우 빈 문자열("")을 표시하도록 합니다.
+                
                 Text(
                     text = report.date ?: "",
                     style = MaterialTheme.typography.bodySmall,
@@ -269,14 +269,14 @@ fun ReportDetailDialog(
     onUpdatePriority: (ReportPriority) -> Unit,
     onUpdateNotes: (String) -> Unit
 ) {
-    // 1. report.notes가 null일 경우를 대비해 빈 문자열로 초기화
+    
     var notes by remember { mutableStateOf(report.notes ?: "") }
     var expandedStatus by remember { mutableStateOf(false) }
     var expandedPriority by remember { mutableStateOf(false) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("신고 상세 정보") },
+        title = { Text("Report Details") },
         text = {
             Column(
                 modifier = Modifier
@@ -285,52 +285,52 @@ fun ReportDetailDialog(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "신고 ID: ${report.id}",
+                    text = "Report ID: ${report.id}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text("제목", style = MaterialTheme.typography.labelMedium)
-                    // 2. report.title이 null일 경우를 대비
-                    Text(report.title ?: "제목 없음", style = MaterialTheme.typography.bodyMedium)
+                    Text("Title", style = MaterialTheme.typography.labelMedium)
+                    
+                    Text(report.title ?: "No Title", style = MaterialTheme.typography.bodyMedium)
                 }
 
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text("신고 유형", style = MaterialTheme.typography.labelMedium)
+                    Text("Report Type", style = MaterialTheme.typography.labelMedium)
                     AssistChip(
                         onClick = {},
-                        // 3. report.category가 null일 경우를 대비
-                        label = { Text(report.category?.label ?: "유형 미지정") }
+                        
+                        label = { Text(report.category?.label ?: "No Category") }
                     )
                 }
 
-                // 4. isNullOrBlank()를 사용하여 department가 null이어도 안전하게 처리
+                
                 if (!report.department.isNullOrBlank()) {
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        Text("관련 부서", style = MaterialTheme.typography.labelMedium)
+                        Text("Related Department", style = MaterialTheme.typography.labelMedium)
                         Text(report.department, style = MaterialTheme.typography.bodyMedium)
                     }
                 }
 
-                // 5. isNullOrBlank()를 사용하여 date가 null이어도 안전하게 처리
+                
                 if (!report.date.isNullOrBlank()) {
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        Text("발생 일시", style = MaterialTheme.typography.labelMedium)
+                        Text("Date of Occurrence", style = MaterialTheme.typography.labelMedium)
                         Text(report.date, style = MaterialTheme.typography.bodyMedium)
                     }
                 }
 
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text("상세 내용", style = MaterialTheme.typography.labelMedium)
+                    Text("Details", style = MaterialTheme.typography.labelMedium)
                     Card(
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.surfaceVariant
                         )
                     ) {
                         Text(
-                            // 6. report.description이 null일 경우를 대비
-                            text = report.description ?: "상세 내용 없음",
+                            
+                            text = report.description ?: "No details provided.",
                             modifier = Modifier.padding(12.dp),
                             style = MaterialTheme.typography.bodySmall
                         )
@@ -342,15 +342,15 @@ fun ReportDetailDialog(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("처리 상태", style = MaterialTheme.typography.labelMedium)
+                        Text("Status", style = MaterialTheme.typography.labelMedium)
                         Spacer(modifier = Modifier.height(4.dp))
                         ExposedDropdownMenuBox(
                             expanded = expandedStatus,
                             onExpandedChange = { expandedStatus = it }
                         ) {
                             OutlinedTextField(
-                                // 7. report.status가 null일 경우를 대비
-                                value = report.status?.label ?: "상태 미지정",
+                                
+                                value = report.status?.label ?: "No Status",
                                 onValueChange = {},
                                 readOnly = true,
                                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedStatus) },
@@ -376,15 +376,15 @@ fun ReportDetailDialog(
                     }
 
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("우선순위", style = MaterialTheme.typography.labelMedium)
+                        Text("Priority", style = MaterialTheme.typography.labelMedium)
                         Spacer(modifier = Modifier.height(4.dp))
                         ExposedDropdownMenuBox(
                             expanded = expandedPriority,
                             onExpandedChange = { expandedPriority = it }
                         ) {
                             OutlinedTextField(
-                                // 8. report.priority가 null일 경우를 대비
-                                value = report.priority?.label ?: "우선순위 미지정",
+                                
+                                value = report.priority?.label ?: "No Priority",
                                 onValueChange = {},
                                 readOnly = true,
                                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedPriority) },
@@ -413,7 +413,7 @@ fun ReportDetailDialog(
                 OutlinedTextField(
                     value = notes,
                     onValueChange = { notes = it },
-                    label = { Text("관리자 메모") },
+                    label = { Text("Admin Notes") },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -425,12 +425,12 @@ fun ReportDetailDialog(
                     onDismiss()
                 }
             ) {
-                Text("저장")
+                Text("Save")
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("취소")
+                Text("Cancel")
             }
         }
     )

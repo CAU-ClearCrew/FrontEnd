@@ -43,12 +43,12 @@ fun LoginScreen(
             )
 
             Text(
-                text = "회사 관리 시스템",
+                text = "zkWhistler",
                 style = MaterialTheme.typography.headlineMedium
             )
 
             Text(
-                text = "로그인하여 시스템에 접근하세요",
+                text = "Log in to access the system",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -61,12 +61,12 @@ fun LoginScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Text(
-                        text = "로그인",
+                        text = "Login",
                         style = MaterialTheme.typography.titleLarge
                     )
 
                     Text(
-                        text = "로그인 유형",
+                        text = "Login Type",
                         style = MaterialTheme.typography.labelMedium
                     )
 
@@ -77,13 +77,13 @@ fun LoginScreen(
                         FilterChip(
                             selected = selectedRole == UserRole.EMPLOYEE,
                             onClick = { selectedRole = UserRole.EMPLOYEE },
-                            label = { Text("사원") },
+                            label = { Text("Employee") },
                             modifier = Modifier.weight(1f)
                         )
                         FilterChip(
                             selected = selectedRole == UserRole.ADMIN,
                             onClick = { selectedRole = UserRole.ADMIN },
-                            label = { Text("관리자") },
+                            label = { Text("Admin") },
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -91,7 +91,7 @@ fun LoginScreen(
                     OutlinedTextField(
                         value = email,
                         onValueChange = { email = it },
-                        label = { Text("이메일") },
+                        label = { Text("Email") },
                         placeholder = { Text("your.email@company.com") },
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true
@@ -100,7 +100,7 @@ fun LoginScreen(
                     OutlinedTextField(
                         value = password,
                         onValueChange = { password = it },
-                        label = { Text("비밀번호") },
+                        label = { Text("Password") },
                         visualTransformation = PasswordVisualTransformation(),
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true
@@ -125,12 +125,12 @@ fun LoginScreen(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Info,   //Login에서 바꿈
+                            imageVector = Icons.Default.Login,
                             contentDescription = null,
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("로그인")
+                        Text("Login")
                     }
 
                     Card(
@@ -143,15 +143,15 @@ fun LoginScreen(
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             Text(
-                                text = "테스트 계정:",
+                                text = "Test Accounts:",
                                 style = MaterialTheme.typography.labelMedium
                             )
                             Text(
-                                text = "관리자: admin@company.com / admin123",
+                                text = "Admin: admin@company.com / admin123",
                                 style = MaterialTheme.typography.bodySmall
                             )
                             Text(
-                                text = "사원: minsu.kim@company.com / password123",
+                                text = "Employee: minsu.kim@company.com / password123",
                                 style = MaterialTheme.typography.bodySmall
                             )
                         }

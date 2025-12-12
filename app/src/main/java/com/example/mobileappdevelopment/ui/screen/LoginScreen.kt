@@ -43,7 +43,7 @@ fun LoginScreen(
             )
 
             Text(
-                text = "zkWhistler",
+                text = "Whistle Box",
                 style = MaterialTheme.typography.headlineMedium
             )
 

@@ -386,6 +386,7 @@ fun ReportDetailDialog(
                                 
                                 value = report.priority?.label ?: "No Priority",
                                 onValueChange = {},
+                                textStyle = MaterialTheme.typography.bodySmall,
                                 readOnly = true,
                                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedPriority) },
                                 modifier = Modifier

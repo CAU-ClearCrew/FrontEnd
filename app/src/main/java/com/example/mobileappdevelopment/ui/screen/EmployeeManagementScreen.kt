@@ -67,7 +67,7 @@ fun EmployeeManagementScreen(
 
                     AssistChip(
                         onClick = { showAddDialog = true },
-                        label = { Text("Add Employee") },
+                        label = { Text("Add") },
                         leadingIcon = {
                             Icon(
                                 Icons.Default.Add,
@@ -80,7 +80,7 @@ fun EmployeeManagementScreen(
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { viewModel.updateSearchQuery(it) },
-                    placeholder = { Text("Search by name, email, department...") },
+                    placeholder = { Text("Search by name, email...") },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true

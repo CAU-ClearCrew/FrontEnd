@@ -77,7 +77,14 @@ fun MainScreen(
                 screens.forEach { screen ->
                     NavigationBarItem(
                         icon = { Icon(screen.icon, contentDescription = screen.title) },
-                        label = { Text(screen.title) },
+                        label = {
+                            Text(
+                                text = screen.title,
+                                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                                lineHeight = androidx.compose.ui.unit.TextUnit.Unspecified
+                            )
+                        },
+
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {
                             navController.navigate(screen.route) {
